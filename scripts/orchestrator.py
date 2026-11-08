@@ -109,14 +109,19 @@ if __name__ == "__main__":
         with open("Commander/rules.md", "r", encoding="utf-8") as f:
             rules = f.read()
 
-    full_prompt = f"""Ti si orkestrator AI agenata. Sledeća pravila važe:
+    full_prompt = f"""Ti si izvršilac zadatka. NE odlučuješ o rutiranju — direktno izvršavaš.
 
+Kontekst pravila (za tvoju informaciju, ne za rutiranje):
 {rules}
 
 Korisnikov zadatak:
 {task}
 
-Izvrši zadatak i vrati rezultat."""
+VAŽNO:
+- Direktno izvrši zadatak i vrati SAMO konačni rezultat (izveštaj, kod, analizu).
+- NE vraćaj oznake poput @pisac, @vibe-coder, @forenzicar.
+- NE ponavljaj zadatak. Samo izvrši.
+- Piši na srpskom/hrvatskom jeziku."""
 
     result = smart_call(full_prompt)
     print(f"Rezultat: {result[:300]}...")
