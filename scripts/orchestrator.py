@@ -30,6 +30,13 @@ def call_groq(prompt):
         messages=[{"role": "user", "content": prompt}],
     )
     return resp.choices[0].message.content
+    def call_groq(prompt):
+    resp = groq_client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[{"role": "user", "content": prompt}],
+        tool_choice="none",  # <--- DODAJTE OVAJ RED
+    )
+    return resp.choices[0].message.content
 
 
 def call_gemini(prompt, key_index=0):
