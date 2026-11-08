@@ -56,7 +56,7 @@ def smart_call(prompt: str) -> str:
 
     for i in range(len(GEMINI_KEYS)):
         try:
-            print(f"→ Pokušavam Gemini #{i + 1} (gemini-2.0-flash)...")
+            print(f"→ Pokušavam Gemini #{i + 1} (gemini-3.8-flash)...")
             return call_gemini(prompt, i)
         except Exception as e:
             print(f"Gemini #{i + 1} pao: {e}")
