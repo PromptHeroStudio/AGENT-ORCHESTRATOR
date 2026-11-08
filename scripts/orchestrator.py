@@ -49,7 +49,7 @@ def call_gemini(prompt: str, key_index: int = 0) -> str:
 def smart_call(prompt: str) -> str:
     """Fallback lanac: Groq → Gemini #1 → Gemini #2."""
     try:
-        print("→ Pokušavam Groq (llama-3.3-70b-versatile)...")
+        print("→ Pokušavam Groq (openai/gpt-oss-120b)...")
         return call_groq(prompt)
     except Exception as e:
         print(f"Groq pao: {e}")
