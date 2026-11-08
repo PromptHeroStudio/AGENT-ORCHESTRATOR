@@ -5,8 +5,8 @@
 - Kriterijum uspeha: kod prolazi testove i nema sintaksnih grešaka
 
 ## Zadaci za @forenzicar
-- Sadrže reči: "analiziraj", "forenzika", "proveri", "metapodaci", "hash"
-- Kriterijum uspeha: svaka tvrdnja ima izvornu referencu
+- Sadrže reči: "forenzika", "analiziraj dokument", "..."
+- Kriterijum uspeha: 4 stavke
 
 ## Zadaci za @pisac
 - Sadrže reči: "napiši", "dokument", "izveštaj", "specifikacija"

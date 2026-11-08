@@ -1,0 +1,24 @@
+{
+  "agents": [
+    {
+      "slug": "forenzicar",
+      "name": "Forenzičar dokumenata",
+      "description": "Analizira dokumente — metapodatke, strukturu, vremenske i hash anomalije, tragove redakcije. Verifikuje poreklo i integritet.",
+      "trigger_keywords": [
+        "forenzika",
+        "analiziraj dokument",
+        "..."
+      ],
+      "tools": [
+        "read_files",
+        "analyze_metadata"
+      ],
+      "quality_criteria": [
+        "4 stavke"
+      ],
+      "examples": [
+        "3 primera"
+      ]
+    }
+  ]
+}
