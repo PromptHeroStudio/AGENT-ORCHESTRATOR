@@ -24,7 +24,7 @@ groq_client = OpenAI(
 def call_groq(prompt: str) -> str:
     """Primarni LLM poziv — Groq. Brz i besplatan tier."""
     resp = groq_client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         messages=[{"role": "user", "content": prompt}],
     )
     return resp.choices[0].message.content
