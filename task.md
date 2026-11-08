@@ -1,1 +1,1 @@
-Analiziraj dokument docs/test.txt i provjeri metapodatke, hash vrijednosti i tragove redakcije. Vrati strukturirani izvještaj.
+Napiši e-mail klijentu u kojem se izvinjavamo zbog kašnjenja isporuke od 3 dana. Ponudi mu 10% popusta na sljedeću narudžbu.
