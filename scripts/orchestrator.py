@@ -25,7 +25,7 @@ groq_client = OpenAI(
 
 def call_groq(prompt):
     resp = groq_client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="qwen/qwen3.8-27b",
         messages=[{"role": "user", "content": prompt}],
     )
     return resp.choices[0].message.content
@@ -46,7 +46,7 @@ def call_gemini(prompt, key_index=0):
 
 def smart_call(prompt):
     try:
-        print("→ Pokušavam Groq (llama-3.3-70b-versatile)...")
+        print("→ Pokušavam Groq (qwen/qwen3.8-27b)...")
         return call_groq(prompt)
     except Exception as e:
         print(f"Groq pao: {e}")
