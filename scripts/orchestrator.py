@@ -1,6 +1,7 @@
 import os
 import json
-from datetime import datetime
+import re
+from datetime import datetime, timezone
 
 import requests
 from openai import OpenAI
@@ -23,14 +24,12 @@ groq_client = OpenAI(
     api_key=GROQ_KEY,
 )
 
-
 def call_groq(prompt):
     resp = groq_client.chat.completions.create(
-        model="openai/gpt-oss-120b",
+        model="qwen/qwen3.8-27b",
         messages=[{"role": "user", "content": prompt}],
     )
     return resp.choices[0].message.content
-
 
 def call_gemini(prompt, key_index=0):
     key = GEMINI_KEYS[key_index]
@@ -46,10 +45,9 @@ def call_gemini(prompt, key_index=0):
     )
     return resp.choices[0].message.content
 
-
 def smart_call(prompt):
     try:
-        print("\u2192 Poku\u0161avam Groq (openai/gpt-oss-120b)...")
+        print("→ Pokušavam Groq (qwen/qwen3.8-27b)...")
         return call_groq(prompt)
     except Exception as e:
         print(f"Groq pao: {e}")
@@ -58,20 +56,18 @@ def smart_call(prompt):
         if not GEMINI_KEYS[i]:
             continue
         try:
-            print(f"\u2192 Poku\u0161avam Gemini #{i + 1}...")
+            print(f"→ Pokušavam Gemini #{i + 1}...")
             return call_gemini(prompt, i)
         except Exception as e:
             print(f"Gemini #{i + 1} pao: {e}")
 
     raise RuntimeError("Svi provajderi su pali.")
 
-
 def load_registry():
     if not os.path.exists(REGISTRY_PATH):
         return {"agents": []}
     with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
-
 
 def route_task(task):
     agents = load_registry().get("agents", [])
@@ -84,7 +80,6 @@ def route_task(task):
                 return agent
     return agents[0]
 
-
 def write_to_sanity(task, result):
     url = f"https://{SANITY_PROJECT}.api.sanity.io/v2024-01-01/data/mutate/{SANITY_DATASET}"
     headers = {
@@ -95,14 +90,13 @@ def write_to_sanity(task, result):
         "_type": "agentResult",
         "task": task,
         "result": result,
-        "_createdAt": datetime.utcnow().isoformat() + "Z",
+        "_createdAt": datetime.now(timezone.utc).isoformat(),
     }}]}
     r = requests.post(url, headers=headers, json=payload, timeout=30)
     if r.status_code >= 400:
-        print(f"Sanity gre\u0161ka {r.status_code}: {r.text}")
+        print(f"Sanity greška {r.status_code}: {r.text}")
         r.raise_for_status()
     print(f"Upisano u Sanity: {r.status_code}")
-
 
 if __name__ == "__main__":
     with open("task.md", "r", encoding="utf-8") as f:
@@ -114,16 +108,33 @@ if __name__ == "__main__":
 
     print(f"Zadatak: {task[:200]}...")
 
+    # --- NOVO: Automatsko čitanje fajla ako je navedena putanja ---
+    # Tražimo obrazac kao "docs/fajl.txt" ili "/docs/fajl.md"
+    match = re.search(r'([\w\-\./]+\.(?:txt|md|json))', task)
+    if match:
+        filepath = match.group(1).lstrip('/')
+        if os.path.exists(filepath):
+            print(f"→ Pronađen fajl: {filepath}. Učitavam sadržaj...")
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    file_content = f.read()
+                task = f"{task}\n\n--- SADRŽAJ FAJLA {filepath} ---\n{file_content}"
+                print(f"✓ Sadržaj fajla dodat u zadatak ({len(file_content)} karaktera).")
+            except Exception as e:
+                print(f"⚠ Nije moguće pročitati fajl: {e}")
+        else:
+            print(f"⚠ Fajl {filepath} nije pronađen u repozitorijumu.")
+
     agent = route_task(task)
     if agent:
-        print(f"\u2192 Rutirano na: @{agent['slug']} ({agent['name']})")
+        print(f"→ Rutirano na: @{agent['slug']} ({agent['name']})")
         charter_path = os.path.join(AGENTS_DIR, f"{agent['slug']}.md")
         charter = ""
         if os.path.exists(charter_path):
             with open(charter_path, "r", encoding="utf-8") as f:
                 charter = f.read()
     else:
-        print("\u2192 Nema registry-ja, koristim generi\u010dki pristup")
+        print("→ Nema registry-ja, koristim generički pristup")
         agent = {"slug": "general", "name": "General"}
         charter = ""
 
@@ -135,10 +146,10 @@ Tvoja povelja:
 Zadatak:
 {task}
 
-VA\u017dNO:
-- Direktno izvr\u0161i zadatak. NE vra\u0107aj @oznake.
-- Vrati SAMO kona\u010dni rezultat, bez ponavljanja zadatka.
-- Pi\u0161i na srpskom/hrvatskom jeziku."""
+VAŽNO:
+- Direktno izvrši zadatak. NE vraćaj @oznake.
+- Vrati SAMO konačni rezultat, bez ponavljanja zadatka.
+- Piši na bosanskom jeziku."""
 
     result = smart_call(full_prompt)
     print(f"Rezultat: {result[:300]}...")
@@ -149,6 +160,6 @@ VA\u017dNO:
     try:
         write_to_sanity(task, result)
     except Exception as e:
-        print(f"Sanity upis nije uspeo: {e}")
+        print(f"Sanity upis nije uspio: {e}")
 
     print("Gotovo.")
