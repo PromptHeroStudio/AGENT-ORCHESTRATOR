@@ -1,5 +1,5 @@
-@pisac  
-**Zadatak:** Napiši kratak izveštaj o prednostima cloud agent orkestracije.  
-- Koristi bullet points.  
-- Maksimalno 5 stavki.  
-- Prati šablon iz *Commander/quality.md*.
+- Skalabilnost: lako se prilagođava povećanju ili smanjenju broja agenata u skladu s promenama opterećenja.  
+- Centralizovano upravljanje: omogućava jedinstveno kontrolno okruženje za konfiguraciju, nadzor i ažuriranje agenata.  
+- Brza implementacija: nova funkcionalnost ili ispravke mogu se distribuirati na sve agente u realnom vremenu.  
+- Otpor na greške: automatsko preusmeravanje zadataka na zdrave agente smanjuje rizik od prekida servisa.  
+- Efikasno korišćenje resursa: dinamičko raspoređivanje poslova optimizuje potrošnju CPU‑a, memorije i mrežnog kapaciteta.
