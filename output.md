@@ -1,5 +1,5 @@
-- Skalabilnost: lako se prilagođava povećanju ili smanjenju broja agenata u skladu s promenama opterećenja.  
-- Centralizovano upravljanje: omogućava jedinstveno kontrolno okruženje za konfiguraciju, nadzor i ažuriranje agenata.  
-- Brza implementacija: nova funkcionalnost ili ispravke mogu se distribuirati na sve agente u realnom vremenu.  
-- Otpor na greške: automatsko preusmeravanje zadataka na zdrave agente smanjuje rizik od prekida servisa.  
-- Efikasno korišćenje resursa: dinamičko raspoređivanje poslova optimizuje potrošnju CPU‑a, memorije i mrežnog kapaciteta.
+- Centralizovano upravljanje omogućava brzu i jednostavnu distribuciju ažuriranja i konfiguracija na sve agente u cloud okruženju.  
+- Skalabilnost u realnom vremenu – resursi se automatski prilagođavaju promenama opterećenja bez ručnog intervjenta.  
+- Povećana sigurnost kroz jedinstvene politike pristupa i enkripciju komunikacije između kontrolera i agenata.  
+- Smanjenje operativnih troškova zahvaljujući automatizaciji zadataka i smanjenju potrebe za lokalnom infrastrukturom.  
+- Bolja vidljivost i monitoring – centralni dashboard pruža detaljne logove, metrike i alarme za sve agente.
