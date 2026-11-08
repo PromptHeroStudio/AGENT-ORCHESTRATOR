@@ -1,1 +1,1 @@
-Napiši kratak izveštaj o prednostima cloud agent orkestracije. Koristi bullet points. Maksimalno 5 stavki.
+Analiziraj dokument iz foldera /docs i provjeri metapodatke, hash vrijednosti i tragove redakcije. Vrati strukturirani izvještaj.
