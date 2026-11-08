@@ -15,3 +15,7 @@
 ## Opšte pravilo
 - Ako zadatak ne odgovara nijednom specijalisti, orkestrator ga šalje @vibe-coder-u
   sa instrukcijom da prvo analizira zahtev.
+
+## Zadaci za @email-pisac
+- Sadrže reči: "e-mail", "email", "mejl", "napiši poruku", "odgovori na", "korespondencija", "follow-up"
+- Kriterijum uspeha: Subject line je jasan i specifičan
