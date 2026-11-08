@@ -27,7 +27,6 @@ def call_groq(prompt):
     resp = groq_client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}],
-        tool_choice="none",
     )
     return resp.choices[0].message.content
 
