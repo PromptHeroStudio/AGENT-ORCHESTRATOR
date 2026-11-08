@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from datetime import datetime, timezone
 
 import requests
@@ -106,6 +107,23 @@ if __name__ == "__main__":
         exit(0)
 
     print(f"Zadatak: {task[:200]}...")
+
+    # --- NOVO: Automatsko čitanje fajla ako je navedena putanja ---
+    # Tražimo obrazac kao "docs/fajl.txt" ili "/docs/fajl.md"
+    match = re.search(r'([\w\-\./]+\.(?:txt|md|json))', task)
+    if match:
+        filepath = match.group(1).lstrip('/')
+        if os.path.exists(filepath):
+            print(f"→ Pronađen fajl: {filepath}. Učitavam sadržaj...")
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    file_content = f.read()
+                task = f"{task}\n\n--- SADRŽAJ FAJLA {filepath} ---\n{file_content}"
+                print(f"✓ Sadržaj fajla dodat u zadatak ({len(file_content)} karaktera).")
+            except Exception as e:
+                print(f"⚠ Nije moguće pročitati fajl: {e}")
+        else:
+            print(f"⚠ Fajl {filepath} nije pronađen u repozitorijumu.")
 
     agent = route_task(task)
     if agent:
