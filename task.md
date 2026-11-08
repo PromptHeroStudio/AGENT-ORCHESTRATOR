@@ -1,1 +1,1 @@
-Analiziraj dokument iz foldera /docs i provjeri metapodatke, hash vrijednosti i tragove redakcije. Vrati strukturirani izvještaj.
+Analiziraj dokument docs/test.txt i provjeri metapodatke, hash vrijednosti i tragove redakcije. Vrati strukturirani izvještaj.
