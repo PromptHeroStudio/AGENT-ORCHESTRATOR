@@ -40,7 +40,7 @@ def call_gemini(prompt: str, key_index: int = 0) -> str:
         api_key=key,
     )
     resp = client.chat.completions.create(
-        model="gemini-2.0-flash",
+        model="gemini-3.8-flash",
         messages=[{"role": "user", "content": prompt}],
     )
     return resp.choices[0].message.content
