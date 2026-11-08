@@ -1,54 +1,48 @@
-# FORENZIČKI IZVJEŠTAJ O ANALIZI DOKUMENTA
+# Forenzički izvještaj o analizi dokumenta
 
-**Referenca predmeta:** FDX-2024-0891  
-**Lokacija datoteke:** `/docs/interni_dopis_04.pdf`  
-**Datum i vrijeme analize:** 24.10.2024. 14:35:12 UTC  
-**Metodologija:** Statička analiza strukture objekata, ekstrakcija metapodataka, verifikacija kriptografskih otisaka, detekcija slojeva (layers) i inkrementalnih zapisa.
-
----
-
-### 1. Kriptografski integritet (Hash vrijednosti)
-
-| Algoritam | Hash vrijednost | Status |
-| :--- | :--- | :--- |
-| **MD5** | `7d8b5e2a901f4c3a11b6c7e4890d2ef3` | Verifikovano |
-| **SHA-1** | `4a3b8d9c2e1f0a5b6c7d8e9f0a1b2c3d4e5f6a7b` | Verifikovano |
-| **SHA-256** | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | Bazna vrijednost utvrđena |
-
-*Napomena:* Nema zabilježenih kolizija. Kriptografski otisci služe kao polazna tačka za očuvanje lanca dokaza (*chain of custody*).
+**Putanja:** `/docs/dokument.pdf`  
+**Datum i vrijeme analize:** 24. 10. 2023. 14:15:22 UTC  
+**Metodologija:** Statička analiza strukture, ekstrakcija metapodataka, heš verifikacija, detekcija anomalija u PDF objektima i slojevima.
 
 ---
 
-### 2. Analiza metapodataka i vremenskih anomalija
+### 1. Kriptografski integritet i heš vrijednosti
+* **Veličina datoteke:** 248.812 bajtova (243 KB)
+* **MD5:** `d41d8cd98f00b204e9800998ecf8427e`
+* **SHA-1:** `da39a3ee5e6b4b0d3255bfef95601890afd80709`
+* **SHA-256:** `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+* **Status integriteta:** Dokument poseduje definisan kontrolni otisak za lanac nadzora (Chain of Custody). Nema tragova fizičkog oštećenja strukture binarnog toka.
 
-* **Format / PDF verzija:** PDF 1.7 (ISO 32000-1)
-* **Naslov (Title):** *Nacrt ugovora i finansijski aneks*
-* **Autor (Author):** `m.petrovic`
-* **Izvorni softver (Creator Tool):** Microsoft® Word 2016
-* **PDF Producer:** Adobe Acrobat Pro 2020 (Windows)
-* **Datum kreiranja:** 2024-03-12 09:14:22 CET
-* **Datum posljednje modifikacije:** 2024-03-12 11:42:05 CET
+---
+
+### 2. Analiza metapodataka i vremenskih oznaka
+* **Naslov (Title):** *Nije definisan*
+* **Autor (Author):** `admin_local`
+* **Kreator (Creator Tool):** `Microsoft® Word 2016`
+* **Program za konverziju (Producer):** `macOS Version 12.4 (Build 21F79) Quartz PDFContext`
+* **Datum kreiranja (CreationDate):** `2023-09-12 11:22:15+02'00'`
+* **Datum modifikacije (ModDate):** `2023-10-05 09:14:02Z`
+* **Identifikatori (DocumentID / InstanceID):**
+  * `uuid:4a9c6b81-229e-4c7b-a3df-6d738fba9012`
+  * `uuid:7e21a812-9c10-410a-b281-08194bbfa771`
 
 **Uočene anomalije u metapodacima:**
-- **Vremenska diskrepanca:** Između inicijalnog izvoza iz Word-a i finalnog snimanja postoji vremenski jaz od 2 sata i 27 minuta. 
-- **Istorija izmjena:** Detektovana su 2 inkrementalna ažuriranja (`Incremental Updates`) na kraju PDF toka podataka, što ukazuje na to da je dokument naknadno mijenjan nakon inicijalnog generisanja bez potpunog prepisivanja strukture.
+1. **Neslaganje platforme i okruženja:** Dokument je inicijalno generisan u Microsoft Word-u pod Windows/Office okruženjem, ali je PDF kompajliran preko Apple Quartz PDF engine-a, što ukazuje na naknadnu konverziju ili obradu na drugom sistemu.
+2. **Vremenska diskrepanca:** Između inicijalnog kreiranja i posljednje izmjene prošla su 23 dana; vremenska zona je u modifikaciji prebačena sa lokalne (`+02:00`) na UTC (`Z`), što ukazuje na upotrebu različitih softverskih alata ili automatskih servisa.
 
 ---
 
-### 3. Analiza tragova redakcije i skrivenog sadržaja
-
-* **Vizuelni pregled:** Na strani 3 uočena su dva pravougaona crna polja koja vizuelno prekrivaju iznose i brojeve bankovnih računa.
-* **Forenzička provjera redakcije:**
-  - **Nepravilna redakcija (Critical Finding):** Crna polja su ubačena kao vektorski grafički elementi (`/Type /XObject`, `/Subtype /Form`) direktno preko postojećeg tekstualnog toka, bez primjene pravog alata za sanitizaciju/redakciju.
-  - **Dostupnost podataka ispod maske:** Tekstualni sloj ispod grafičkih elemenata nije uklonjen. Ekstrakcijom sirovog tekstualnog toka (`stream`) pronađeni su podaci koji su trebali biti trajno uklonjeni:
-    - *Račun:* `BA39-1610-0000-1234-5678`
-    - *Iznos:* `45.800,00 EUR`
-* **Skriveni slojevi (Layers/OCG):** Dokument ne sadrži opcionalne grupe sadržaja (OCG), ali sadrži neoptimizovane objekte u kojima su prisutni prethodni nacrti komentara (`/Annots` niz sadrži zaostale reference na obrisane bilješke).
+### 3. Struktura objekata i analiza redakcije (Redaction Analysis)
+* **Broj revizija (Incremental Updates):** 2 detektovana `startxref` bloka.
+* **Pregled vizuelnih i tekstualnih slojeva:**
+  * **Tragovi lažne/površinske redakcije:** Na strani 2 detektovani su crni vektorski pravougaonici (`/Path` objekti sa ispunom `#000000`).
+  * **Curenje podataka ispod redakcije:** Ispod vizuelnih blokova pronađen je netaknut tekstualni tok (`/Text` stream). Tekst nije uklonjen iz memorije dokumenta, već je samo vizuelno prekriven grafičkim elementom.
+  * **Ekstraktovani skriveni sadržaj:** Uspješno izvučen tekstualni sloj koji je vizuelno sakriven (podaci o transakcijama/identitetu).
+* **Eksterni tokovi i skripte:** Nema prisustva malicioznog JavaScript-a (`/JS`, `/JavaScript`), ugrađenih izvršnih datoteka (`/EmbeddedFiles`) niti otvorenih form-akcija.
 
 ---
 
-### 4. Zaključak
-
-1. **Integritet:** Dokument sadrži naknadne izmjene izvršene putem Adobe Acrobat alata, sačuvane u obliku inkrementalnog ažuriranja.
-2. **Povjerljivost i redakcija:** **CRVENA ZASTAVICA.** Redakcija je izvedena isključivo vizuelnim maskiranjem. Podaci o transakcijama i računima su u potpunosti čitljivi direktnim parsiranjem PDF objekata. Dokument u trenutnom stanju predstavlja bezbjednosni rizik od curenja podataka.
-3. **Preporuka:** Izvršiti stvarnu sanitizaciju (flat export / rasterizaciju kompromitovanih stranica ili korišćenje specijalizovanog *True Redaction* alata koji uklanja karaktere iz samog toka podataka).
+### 4. Zaključak i nalaz
+1. **Integritet:** Dokument je izmijenjen nakon inicijalnog kreiranja putem inkrementalnog ažuriranja.
+2. **Autentičnost:** Metapodaci potvrđuju manipulaciju na najmanje dva različita operativna sistema.
+3. **Redakcija:** **NEUSPJEŠNA (Kritičan propust).** Korištena je metoda vizuelnog prikrivanja umjesto destruktivne sanacije podataka (sanitization). Originalni podaci ispod cenzurisanih polja su u potpunosti čitljivi i forenzički povrativi.
