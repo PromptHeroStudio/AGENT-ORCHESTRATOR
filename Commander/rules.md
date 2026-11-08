@@ -9,8 +9,8 @@
 - Kriterijum uspeha: 4 stavke
 
 ## Zadaci za @pisac
-- Sadrže reči: "napiši", "dokument", "izveštaj", "specifikacija"
-- Kriterijum uspeha: dokument prati šablon iz Commander/quality.md
+- Sadrže reči: "e-mail", "email", "mejl", "napiši poruku", "odgovori na", "korespondencija", "follow-up"
+- Kriterijum uspeha: Subject line je jasan i specifičan
 
 ## Opšte pravilo
 - Ako zadatak ne odgovara nijednom specijalisti, orkestrator ga šalje @vibe-coder-u

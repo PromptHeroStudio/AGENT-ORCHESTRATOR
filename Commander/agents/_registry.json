@@ -19,6 +19,35 @@
       "examples": [
         "3 primera"
       ]
+    },
+    {
+      "slug": "pisac",
+      "name": "Pisac e-mailova",
+      "description": "piše e-mail klijentima",
+      "trigger_keywords": [
+        "e-mail",
+        "email",
+        "mejl",
+        "napiši poruku",
+        "odgovori na",
+        "korespondencija",
+        "follow-up"
+      ],
+      "tools": [
+        "read_files",
+        "write_files"
+      ],
+      "quality_criteria": [
+        "Subject line je jasan i specifičan",
+        "Ton odgovara kontekstu (formalni/neformalni)",
+        "Postoji jasan poziv na akciju",
+        "Bez pravopisnih i gramatičkih grešaka"
+      ],
+      "examples": [
+        "Napiši e-mail klijentu o kašnjenju isporuke",
+        "Odgovori na pritužbu kupca, ljubazno ali čvrsto",
+        "Napiši follow-up e-mail posle sastanka"
+      ]
     }
   ]
 }
